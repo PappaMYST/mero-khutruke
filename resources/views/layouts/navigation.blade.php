@@ -72,22 +72,39 @@
                 <x-nav-link url="{{ route('dashboard') }}" icon="chart-pie">Dashboard</x-nav-link>
             </li>
             <li>
-                <x-nav-link url="" icon="book">Transaction</x-nav-link>
+                <button type="button"
+                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                    <i
+                        class="fa fa-book shrink-0 w-5 h-5  transition duration-75 text-gray-400  group-hover:text-white mt-1"></i>
+                    <span class="text-lg flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Transaction</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 4 4 4-4" />
+                    </svg>
+                </button>
+                <ul id="dropdown-example" class="pt-2 space-y-2">
+                    <li>
+                        <x-nav-link class="ml-5" url="" icon="hand-holding-dollar">Income</x-nav-link>
+                    </li>
+                    <li>
+                        <x-nav-link class="ml-5" url="" icon="sack-xmark">Expense</x-nav-link>
+                    </li>
+                    <li>
+                        <x-nav-link class="ml-5" url="" icon="money-bill-transfer">Transfer</x-nav-link>
+                    </li>
+                    {{-- <li>
+                        <a href="#"
+                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Invoice</a>
+                    </li> --}}
+                </ul>
             </li>
             <li>
                 <x-nav-link url="{{ route('categories.index') }}" icon="wallet">Category</x-nav-link>
             </li>
             <li>
-                <x-nav-link url="" icon="database">Accounts</x-nav-link>
-            </li>
-            <li>
-                <x-nav-link url="" icon="hand-holding-dollar">Income</x-nav-link>
-            </li>
-            <li>
-                <x-nav-link url="" icon="sack-xmark">Expense</x-nav-link>
-            </li>
-            <li>
-                <x-nav-link url="" icon="money-bill-transfer">Transfer</x-nav-link>
+                <x-nav-link url="{{ route('accounts.index') }}" icon="database">Accounts</x-nav-link>
             </li>
         </ul>
         <div class="justify-end">&copy; Copyright <?php echo date('Y'); ?> Mero Khutruke. All Rights Reserved.</div>
