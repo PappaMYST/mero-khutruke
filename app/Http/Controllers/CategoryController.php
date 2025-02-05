@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -12,7 +13,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::where('user_id', Auth::id())
+            ->orWhereNull('user_id')
+            ->get();
+        // $customCategories = auth()->user()->categories->where('is_predefined', false)->get();
+
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -28,7 +34,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|in:income,expense'
+        ]);
+
+        Category::create([
+            'name' => $validatedData['name'],
+            'type' => $validatedData['type'],
+            'user_id' => Auth::user()->id,
+        ]);
+
+        return redirect()->route('categories.index')->with('success', 'Category added successfully');
     }
 
     /**
