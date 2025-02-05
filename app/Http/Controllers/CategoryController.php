@@ -77,6 +77,12 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        if ($category->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $category->delete();
+
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
 }
