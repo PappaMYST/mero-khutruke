@@ -1,4 +1,11 @@
 # Mero Khutruke - A Web-Based Personal Finance Manager
+This repository contains the all the resources and the actual project for the partial fulfilment of the requirements for the degree of Bachelor in Information Technology (BIT). This project is submitted to Department of Information Technology, Central Campus of Technology, Dharan, Sunsari, Nepal. Our project is named Mero Khutruke.
+
+## Team Members: 
+- Darshan Shakya (BIT 343/077)
+- Sanjiv Rai (BIT 359/077)
+- Santosh Rai (BIT 361/077)
+
 ## How to use
 - Clone the repository with **git clone**
 - Copy .env.example file to .env and edit database credentials there
