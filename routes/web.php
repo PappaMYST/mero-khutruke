@@ -2,28 +2,58 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Category;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
+//Landing page route
 Route::get('/', function () {
     return view('layouts.landing');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    //Dashboard route where all transaction are shown
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+    //Profile 'preconfigured'
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('categories', CategoryController::class);
-    // Route::resource('transaction', CategoryController::class);
-    // Route::resource('budgets', CategoryController::class);
-    Route::resource('accounts', AccountController::class);
-    // Route::resource('transfers', CategoryController::class);
 
+    //Category
+    Route::resource('categories', CategoryController::class);
+
+    //Account
+    Route::resource('accounts', AccountController::class);
+
+    //Transaction
+    Route::get('/transactions/expense/create', [TransactionController::class, 'createExpense'])->name('transactions.create_expense');
+    Route::get('/transactions/income/create', [TransactionController::class, 'createIncome'])->name('transactions.create_income');
+    Route::get('/transactions/transfer/create', [TransactionController::class, 'createTransfer'])->name('transactions.create_transfer');
+
+    Route::post('/transaction/expense', [TransactionController::class, 'storeExpense'])->name('transactions.expense_store');
+    Route::post('/transaction/income', [TransactionController::class, 'storeIncome'])->name('transactions.income_store');
+    Route::post('/transaction/transfer', [TransactionController::class, 'storeTransfer'])->name('transactions.transfer_store');
 });
+
+//Email Verification Route
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 require __DIR__ . '/auth.php';
