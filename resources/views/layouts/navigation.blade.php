@@ -69,7 +69,16 @@
     <div class="h-full px-3 pb-4 overflow-y-auto  bg-gray-800">
         <ul class="space-y-2 font-medium">
             <li>
-                <x-nav-link url="{{ route('dashboard') }}" icon="chart-pie">Dashboard</x-nav-link>
+                <x-nav-link url="{{ route('dashboard') }}" icon="table-columns">Dashboard</x-nav-link>
+            </li>
+            <li>
+                <x-nav-link url="" icon="chart-pie">Statistics</x-nav-link>
+            </li>
+            <li>
+                <x-nav-link url="{{ route('accounts.index') }}" icon="database">Accounts</x-nav-link>
+            </li>
+            <li>
+                <x-nav-link url="{{ route('categories.index') }}" icon="wallet">Category</x-nav-link>
             </li>
             <li>
                 <button type="button"
@@ -86,13 +95,17 @@
                 </button>
                 <ul id="dropdown-example" class="pt-2 space-y-2">
                     <li>
-                        <x-nav-link class="ml-5" url="" icon="hand-holding-dollar">Income</x-nav-link>
+                        <x-nav-link class="ml-5" url="{{ route('transactions.create_expense') }}"
+                            icon="sack-xmark">Expense</x-nav-link>
                     </li>
                     <li>
-                        <x-nav-link class="ml-5" url="" icon="sack-xmark">Expense</x-nav-link>
+                        <x-nav-link class="ml-5" url="{{ route('transactions.create_income') }}"
+                            icon="hand-holding-dollar">Income</x-nav-link>
                     </li>
+
                     <li>
-                        <x-nav-link class="ml-5" url="" icon="money-bill-transfer">Transfer</x-nav-link>
+                        <x-nav-link class="ml-5" url="{{ route('transactions.create_transfer') }}"
+                            icon="money-bill-transfer">Transfer</x-nav-link>
                     </li>
                     {{-- <li>
                         <a href="#"
@@ -100,12 +113,7 @@
                     </li> --}}
                 </ul>
             </li>
-            <li>
-                <x-nav-link url="{{ route('categories.index') }}" icon="wallet">Category</x-nav-link>
-            </li>
-            <li>
-                <x-nav-link url="{{ route('accounts.index') }}" icon="database">Accounts</x-nav-link>
-            </li>
+
         </ul>
         <div class="justify-end">&copy; Copyright <?php echo date('Y'); ?> Mero Khutruke. All Rights Reserved.</div>
     </div>
