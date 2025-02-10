@@ -16,4 +16,4 @@ This repository contains the all the resources and the actual project for the pa
 - Launch the app
 
 ## License
-It is free to use.
+The app is open-sourced software licensed under the [MIT license](https://opensource.org/license/mit).
