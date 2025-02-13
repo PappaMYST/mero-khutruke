@@ -15,9 +15,6 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    //Dashboard route where all transaction are shown
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
     //Profile 'preconfigured'
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -30,6 +27,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('accounts', AccountController::class);
 
     //Transaction
+    //Dashboard route where all transaction are shown
+    Route::get('/dashboard', [TransactionController::class, 'index'])->name('dashboard');
+    Route::get('/statistics', [TransactionController::class, 'charts'])->name('transactions.charts');
+
     Route::get('/transactions/expense/create', [TransactionController::class, 'createExpense'])->name('transactions.create_expense');
     Route::get('/transactions/income/create', [TransactionController::class, 'createIncome'])->name('transactions.create_income');
     Route::get('/transactions/transfer/create', [TransactionController::class, 'createTransfer'])->name('transactions.create_transfer');
@@ -37,6 +38,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/transaction/expense', [TransactionController::class, 'storeExpense'])->name('transactions.expense_store');
     Route::post('/transaction/income', [TransactionController::class, 'storeIncome'])->name('transactions.income_store');
     Route::post('/transaction/transfer', [TransactionController::class, 'storeTransfer'])->name('transactions.transfer_store');
+
+    Route::get('/transaction/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+    Route::get('/transaction/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+    Route::put('/transaction/{id}', [TransactionController::class, 'update'])->name('transactions.update');
+    Route::delete('/transaction/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+
 });
 
 //Email Verification Route
