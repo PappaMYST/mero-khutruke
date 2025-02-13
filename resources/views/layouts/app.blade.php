@@ -14,6 +14,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -26,11 +27,18 @@
     <!-- Page Content -->
     <main class="p-4 sm:ml-64">
         <div class="p-4 mt-14">
+            {{-- Display alert messages --}}
+            @if (session('success'))
+                <x-alert type="success" message="{{ session('success') }}"></x-alert>
+            @endif
+            @if (session('error'))
+                <x-alert type="error" message="{{ session('error') }}"></x-alert>
+            @endif
             {{ $slot }}
         </div>
     </main>
     {{-- Scripts --}}
-    
+
     @stack('scripts')
 </body>
 

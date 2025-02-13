@@ -20,7 +20,7 @@
                                 placeholder="Select date"> --}}
 
                             <input type="date" name="date" id="date" value="{{ $transaction->date }}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                class="bg-gray-700 border border-gray-600  text-sm placeholder-gray-400 rounded-lg focus:border-blue-500 block w-full ps-10 p-2.5 text-gray-100 focus:ring-blue-500">
 
                             @error('date')
                                 <div class="text-red-500 mt-2 text-sm">{{ $message }}</div>
@@ -33,7 +33,7 @@
                             <label for="from_account_id"
                                 class="block mb-2 text-sm font-medium text-gray-100">From</label>
                             <select id="from_account_id" name="from_account_id"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                class="border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-gray-100">
                                 <option disabled selected value="">Select an option</option>
                                 @foreach ($accounts as $account)
                                     <option value="{{ $account->id }}"
@@ -52,7 +52,7 @@
                         <fieldset>
                             <label for="to_account_id" class="block mb-2 text-sm font-medium text-gray-100">To</label>
                             <select id="to_account_id" name="to_account_id"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                class="border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-gray-100">
                                 <option disabled selected value="">Select an option</option>
                                 @foreach ($accounts as $account)
                                     <option value="{{ $account->id }}"
@@ -82,14 +82,13 @@
                     </div>
 
                     <div class="flex gap-2">
-                        <x-primary-button type="submit"
-                            class="bg-gray-700 mt-0 hover:bg-gray-500">Save</x-primary-button>
-                    
+                        <x-primary-button type="submit">Save</x-primary-button>
+
                 </form>
                 <form action="{{ route('transactions.destroy', $transaction->id) }}" method="post">
                     @csrf
                     @method('DELETE')
-                    <x-primary-button type="submit" class="bg-red-700 mt-0 hover:bg-red-600">Delete</x-primary-button>
+                    <x-danger-button type="submit" class="bg-red-700 mt-0 hover:bg-red-600">Delete</x-danger-button>
                 </form>
             </div>
         </div>

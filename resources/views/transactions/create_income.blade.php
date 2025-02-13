@@ -2,7 +2,6 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-100">
-                <h2>Add Income</h2>
                 <form method="post" action="{{ route('transactions.income_store') }}">
                     @csrf
                     <div class="mb-5">
@@ -20,7 +19,7 @@
                                 placeholder="Select date"> --}}
 
                             <input type="date" name="date" id="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                class="bg-gray-700 border border-gray-600  text-sm placeholder-gray-400 rounded-lg focus:border-blue-500 block w-full ps-10 p-2.5 text-gray-100 focus:ring-blue-500">
 
                             @error('date')
                                 <div class="text-red-500 mt-2 text-sm">{{ $message }}</div>
@@ -32,7 +31,7 @@
                         <fieldset>
                             <label for="account_id" class="block mb-2 text-sm font-medium text-gray-100">Account</label>
                             <select id="account_id" name="account_id"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                class="border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-gray-100">
                                 <option disabled selected value="">Select an option</option>
                                 @foreach ($accounts as $account)
                                     <option value="{{ $account->id }}">{{ $account->name }} - {{ $account->balance }}
@@ -50,7 +49,7 @@
                             <label for="category_id"
                                 class="block mb-2 text-sm font-medium text-gray-100">Category</label>
                             <select id="category_id" name="category_id"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                class="border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-gray-100">
                                 <option disabled selected value="">Select an option</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}
@@ -77,7 +76,7 @@
                             class="border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 shadow-xs-light" />
                     </div>
 
-                    <x-primary-button type="submit" class="bg-gray-700 mt-0 hover:bg-gray-500">Save</x-primary-button>
+                    <x-primary-button type="submit">Save</x-primary-button>
                 </form>
             </div>
         </div>
