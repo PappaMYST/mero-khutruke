@@ -29,12 +29,13 @@
             <div class="p-6 text-gray-100">
 
 
-                <div class="flex rounded-md shadow-xs justify-between mr-1 mb-4">
+                <div class="flex rounded-md shadow-xs items-center justify-between mr-1 mb-4">
                     <h2 class="text-2xl">Transactions</h2>
                     <div>
                         <a href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth, 'year' => $selectedYear]) }}"
                             aria-current="page"
-                            class="px-4 py-2 text-sm font-medium text-gray-100 bg-gray-800 border border-gray-700 rounded-s-lg hover:bg-gray-700 hover:text-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:text-gray-100">
+                            class="px-4 py-2 text-sm font-medium text-gray-100 bg-gray-800 border border-gray-700 rounded-s-lg hover:bg-gray-700 hover:text-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:text-gray-100 "
+                            onclick="showDate('daily')">
                             Daily
                         </a>
                         {{-- <a href="{{ route('dashboard', ['view' => 'monthly', 'year' => $selectedYear]) }}"
@@ -42,15 +43,18 @@
                             Settings
                         </a> --}}
                         <a href="{{ route('dashboard', ['view' => 'monthly', 'year' => $selectedYear]) }}"
-                            class="px-4 py-2 text-sm font-medium text-gray-100 bg-gray-800 border border-gray-700 rounded-e-lg hover:bg-gray-700 hover:text-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:text-gray-100">
+                            class="px-4
+                            py-2 text-sm font-medium text-gray-100 bg-gray-800 border border-gray-700 rounded-e-lg
+                            hover:bg-gray-700 hover:text-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-500
+                            focus:text-gray-100">
                             Monthly
                         </a>
                     </div>
                 </div>
                 @if ($viewType == 'daily')
                     <div>
-                        <a
-                            href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth - 1, 'year' => $selectedYear]) }}">
+                        <a href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth - 1, 'year' => $selectedYear]) }}"
+                            class="active">
                             <i class="fa fa-chevron-left text-xl mr-2 w-5 h-5"></i></a>
                         <span class="text-xl">
                             {{ date('F Y', mktime(0, 0, 0, $selectedMonth, 1, $selectedYear)) }}
@@ -130,9 +134,14 @@
                     <table class="w-full text-sm text-left rtl:text-right text-gray-300">
                         <thead class="text-xs uppercase bg-gray-700 text-gray-300">
                             <tr>
-                                <th scope="col" class="px-6 py-3">
-
-                                </th>
+                                <th scope="col" class="px-6 py-3"></th>
+                                {{-- Shifting heading column for showing date on monthly --}}
+                                @if ($viewType == 'monthly')
+                                    <th scope="col" id="showDate" class="px-6 py-3 ">Category</th>
+                                @else
+                                    <th scope="col" id="showDate" class="px-6 py-3 hidden"></th>
+                                @endif
+                                {{--  --}}
                                 <th scope="col" class="px-6 py-3">
                                     Account
                                 </th>
@@ -161,6 +170,13 @@
                                     <td class="px-6 py-4">{{ $date }}</td>
                                     <td></td>
                                     <td></td>
+                                    {{-- Add empty column for showing date in monthly --}}
+                                    @if ($viewType == 'monthly')
+                                        <td class=""></td>
+                                    @else
+                                        <td class="hidden"></td>
+                                    @endif
+                                    {{--  --}}
                                     <td class="px-6 py-4 text-emerald-500">
                                         Rs. {{ number_format($dailyIncomeTotal, 2) }} </td>
                                     <td class="px-6 py-4 text-red-500">Rs. {{ number_format($dailyExpenseTotal, 2) }}
@@ -172,8 +188,19 @@
 
                                 @foreach ($dailyTransaction as $transaction)
                                     <tr class="bg-gray-900 border-gray-700   hover:bg-gray-600">
+                                        {{-- Show date on monthly --}}
+                                        @if ($viewType == 'monthly')
+                                            <td class="px-6 py-4">
+                                                {{ $transaction->date }}
+                                            </td>
+                                        @else
+                                            <td class="px-6 py-4 hidden">
+                                                {{ $transaction->date }}
+                                            </td>
+                                        @endif
+                                        {{--  --}}
                                         <td class="px-6 py-4">
-                                            {{ $transaction->category->name ?? 'N/A' }}
+                                            {{ $transaction->category->name ?? 'Transfer' }}
                                         </td>
                                         <td class="px-6 py-4">
                                             @if ($transaction->type === 'transfer')
@@ -197,9 +224,11 @@
                                         </td>
 
 
-                                        <td class="px-6 py-4">
-                                            <a href="#"
-                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                        <td class="px-6 py-4 text-center">
+                                            <a href="{{ route('transactions.edit', $transaction->id) }}"
+                                                class="font-medium text-gray-300">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

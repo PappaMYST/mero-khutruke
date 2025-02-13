@@ -5,12 +5,126 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class TransactionController extends Controller
 {
+        public function index(Request $request)
+        {
+                $viewType = $request->input('view', 'daily');
+
+                $selectedMonth = $request->input('month', Carbon::now()->format('m'));
+                $selectedYear = $request->input('year', Carbon::now()->format('Y'));
+
+
+                if ($viewType == 'daily') {
+                        $transactions = Transaction::where('user_id', Auth::id())
+                                ->whereYear('date', $selectedYear)
+                                ->whereMonth('date', $selectedMonth)
+                                ->orderBy('date', 'desc')
+                                ->get()
+                                ->groupBy(function ($transaction) {
+                                        return Carbon::parse($transaction->date)->format('m-d');
+                                });
+                } else {
+                        $transactions = Transaction::where('user_id', Auth::id())
+                                ->whereYear('date', $selectedYear)
+                                ->orderBy('date', 'desc')
+                                ->get()
+                                ->groupBy(function ($transaction) {
+                                        return Carbon::parse($transaction->date)->format('F');
+                                });
+                }
+
+                $monthlyIncome = Transaction::where('user_id', Auth::id())
+                        ->whereYear('date', $selectedYear)
+                        ->whereMonth('date', $selectedMonth)
+                        ->where('type', 'income')
+                        ->sum('amount');
+
+                $monthlyExpense = Transaction::where('user_id', Auth::id())
+                        ->whereYear('date', $selectedYear)
+                        ->whereMonth('date', $selectedMonth)
+                        ->where('type', 'expense')
+                        ->sum('amount');
+
+                $monthlyTotal = $monthlyIncome - $monthlyExpense;
+
+                $yearlyIncome = Transaction::where('user_id', Auth::id())
+                        ->whereYear('date', $selectedYear)
+                        ->where('type', 'income')
+                        ->sum('amount');
+
+                $yearlyExpense = Transaction::where('user_id', Auth::id())
+                        ->whereYear('date', $selectedYear)
+                        ->where('type', 'expense')
+                        ->sum('amount');
+
+                $yearlyTotal = $yearlyIncome - $yearlyExpense;
+
+                return view('dashboard', compact('transactions', 'viewType', 'selectedMonth', 'selectedYear', 'monthlyTotal', 'monthlyIncome', 'monthlyExpense', 'yearlyTotal', 'yearlyIncome', 'yearlyExpense'));
+        }
+
+        public function charts(Request $request)
+        {
+                $viewType = $request->input('view', 'daily');
+
+                $selectedMonth = $request->input('month', Carbon::now()->format('m'));
+                $selectedYear = $request->input('year', Carbon::now()->format('Y'));
+
+                $transactionQuery = Transaction::where('user_id', Auth::id());
+
+                if ($viewType == 'daily') {
+                        $transactionQuery
+                                ->whereYear('date', $selectedYear)
+                                ->whereMonth('date', $selectedMonth);
+                } else {
+                        $transactionQuery
+                                ->whereYear('date', $selectedYear);
+                }
+
+                $transactions = $transactionQuery->orderBy('date', 'desc')->get();
+
+                $incomeCategories = $transactions->where('type', 'income')
+                        ->groupBy('category_id')
+                        ->map(fn($group) => $group->sum('amount'));
+
+                $expenseCategories = $transactions->where('type', 'expense')
+                        ->groupBy('category_id')
+                        ->map(fn($group) => $group->sum('amount'));
+
+                $monthlyIncome = Transaction::where('user_id', Auth::id())
+                        ->whereYear('date', $selectedYear)
+                        ->whereMonth('date', $selectedMonth)
+                        ->where('type', 'income')
+                        ->sum('amount');
+
+                $monthlyExpense = Transaction::where('user_id', Auth::id())
+                        ->whereYear('date', $selectedYear)
+                        ->whereMonth('date', $selectedMonth)
+                        ->where('type', 'expense')
+                        ->sum('amount');
+
+                $monthlyTotal = $monthlyIncome - $monthlyExpense;
+
+                $yearlyIncome = Transaction::where('user_id', Auth::id())
+                        ->whereYear('date', $selectedYear)
+                        ->where('type', 'income')
+                        ->sum('amount');
+
+                $yearlyExpense = Transaction::where('user_id', Auth::id())
+                        ->whereYear('date', $selectedYear)
+                        ->where('type', 'expense')
+                        ->sum('amount');
+
+                $yearlyTotal = $yearlyIncome - $yearlyExpense;
+
+                return view('transactions.charts', compact('viewType', 'selectedMonth', 'selectedYear', 'incomeCategories', 'expenseCategories', 'monthlyTotal', 'monthlyIncome', 'monthlyExpense', 'yearlyTotal', 'yearlyIncome', 'yearlyExpense'));
+        }
+
         //Show create expense form
         public function createExpense()
         {
@@ -139,5 +253,140 @@ class TransactionController extends Controller
 
                 return redirect()->route('dashboard')->with('success', 'Balance transferred successfully.');
                 // dd('Balance transferred successfully.');
+        }
+
+        //Edit Transaction
+        public function edit($id)
+        {
+                $transaction = Transaction::findOrFail($id);
+                $categories = Category::all();
+                $accounts = Account::all();
+
+                if ($transaction->type === 'transfer') {
+                        return view('transactions.edit-transfer', compact('transaction', 'categories', 'accounts'));
+                } else {
+                        return view('transactions.edit-income-expense', compact('transaction', 'categories', 'accounts'));
+                }
+        }
+
+        //Update Transaction
+        public function update(Request $request, $id)
+        {
+
+                $transaction = Transaction::findOrFail($id);
+                $account = Account::findOrFail($transaction->account_id);
+
+                $request->validate([
+                        'date' => 'required|date',
+                        'amount' => 'required|numeric|min:0.01',
+                        'note' => 'nullable|string'
+                ]);
+
+                if ($transaction->type === 'transfer') {
+                        $request->validate([
+                                'from_account_id' => 'required|exists:accounts,id|different:to_account_id',
+                                'to_account_id' => 'required|exists:accounts,id'
+                        ]);
+
+                        $fromAccount = Account::find($request->from_account_id);
+                        $toAccount = Account::find($request->to_account_id);
+
+                        //Rollback previous amount
+                        $fromAccount->balance += $transaction->amount;
+                        $toAccount->balance -= $transaction->amount;
+
+                        if (!$fromAccount || !$toAccount) {
+                                return back()->withErrors(['message' => 'Invalid account selection.']);
+                        }
+
+                        if ($fromAccount->balance < $request->amount) {
+                                return back()->withErrors(['message' => 'Insufficient Balance.']);
+                        }
+
+                        $fromAccount->balance -= $request->amount;
+                        $toAccount->balance += $request->amount;
+
+                        $fromAccount->save();
+                        $toAccount->save();
+
+                        $transaction->update([
+                                'account_id' => $request->from_account_id,
+                                'amount' => $request->amount,
+                                'date' => $request->date,
+                                'note' => $request->note,
+                                'to_account_id' => $request->to_account_id
+                        ]);
+
+                } else {
+                        $request->validate([
+                                'category_id' => 'required|exists:categories,id',
+                                'account_id' => 'required|exists:accounts,id'
+                        ]);
+
+                        if ($transaction->type === 'income') {
+                                $account->balance -= $transaction->amount;
+
+                        } elseif ($transaction->type === 'expense') {
+                                $account->balance += $transaction->amount;
+
+                                if ($account->balance < $request->amount) {
+                                        return back()->withErrors(['message' => 'Insufficient funds.']);
+                                }
+                        }
+
+                        $transaction->update([
+                                'account_id' => $request->account_id,
+                                'category_id' => $request->category_id,
+                                'amount' => $request->amount,
+                                'date' => $request->date,
+                                'note' => $request->note,
+                        ]);
+
+                        if ($transaction->type === 'income') {
+                                $account->balance += $request->amount;
+
+                        } elseif ($transaction->type === 'expense') {
+                                $account->balance -= $request->amount;
+
+                                if ($account->balance < $request->amount) {
+                                        return back()->withErrors(['message' => 'Insufficient funds.']);
+                                }
+                        }
+
+                        $account->save();
+                }
+
+                return redirect()->route('dashboard')->with('success', 'Transaction updated successfully.');
+        }
+
+        //Delete Transaction
+        public function destroy($id)
+        {
+                $transaction = Transaction::findOrFail($id);
+                $account = Account::find($transaction->account_id);
+
+                if ($transaction->type === 'income') {
+                        $account->balance -= $transaction->amount;
+
+                        $account->save();
+                } elseif ($transaction->type === 'expense') {
+                        $account->balance += $transaction->amount;
+
+                        $account->save();
+                } elseif ($transaction->type === 'transfer') {
+                        $fromAccount = Account::find($transaction->from_account_id);
+                        $toAccount = Account::find($transaction->to_account_id);
+
+                        $fromAccount->balance += $transaction->amount;
+                        $toAccount->balance -= $transaction->amount;
+
+                        $fromAccount->save();
+                        $toAccount->save();
+
+                }
+
+                $transaction->delete();
+
+                return redirect()->route('dashboard')->with('success', 'Transaction deleted successfully.');
         }
 }

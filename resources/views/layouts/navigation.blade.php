@@ -72,7 +72,7 @@
                 <x-nav-link url="{{ route('dashboard') }}" icon="table-columns">Dashboard</x-nav-link>
             </li>
             <li>
-                <x-nav-link url="" icon="chart-pie">Statistics</x-nav-link>
+                <x-nav-link url="{{ route('transactions.charts') }}" icon="chart-pie">Statistics</x-nav-link>
             </li>
             <li>
                 <x-nav-link url="{{ route('accounts.index') }}" icon="database">Accounts</x-nav-link>
