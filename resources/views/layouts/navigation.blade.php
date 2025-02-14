@@ -82,7 +82,7 @@
             </li>
             <li>
                 <button type="button"
-                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    class="flex items-center w-full p-2 text-base  transition duration-75 rounded-lg group  text-gray-200 hover:bg-gray-700"
                     aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                     <i
                         class="fa fa-book shrink-0 w-5 h-5  transition duration-75 text-gray-400  group-hover:text-white mt-1"></i>

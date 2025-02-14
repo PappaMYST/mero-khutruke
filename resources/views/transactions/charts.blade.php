@@ -103,8 +103,8 @@
                 <div class="mb-4 border-b border-gray-700">
                     <ul class="flex flex-wrap justify-center -mb-px text-sm font-medium text-center"
                         id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content"
-                        data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500"
-                        data-tabs-inactive-classes="dark:border-transparent text-gray-300 hover:text-gray-600 border-gray-700 hover:text-gray-300"
+                        data-tabs-active-classes="text-purple-500 hover:text-purple-500 border-purple-500"
+                        data-tabs-inactive-classes="border-transparent text-gray-300 hover:text-gray-300"
                         role="tablist">
                         <li class="me-2" role="presentation">
                             <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-styled-tab"

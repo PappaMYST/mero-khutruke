@@ -14,19 +14,19 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {{-- Title --}}
     <title>{{ $title ?? 'Mero Khutruke | Personal Finance Manager' }}</title>
 </head>
 
-<body>
+<body class="container">
     @include('landing-sections.header')
     <main>
         @include('landing-sections.hero')
-        @include('landing-sections.about')
         @include('landing-sections.features')
+        @include('landing-sections.about')
         @include('landing-sections.blogs')
         @include('landing-sections.contact')
     </main>

@@ -162,7 +162,7 @@ class TransactionController extends Controller
                 $account = Account::find($validatedData['account_id']);
 
                 if ($account->balance < $validatedData['amount']) {
-                        return back()->withErrors(['message' => 'Insufficient funds.']);
+                        return back()->with('error', 'Insufficient funds.');
                 }
 
                 $account->balance -= $validatedData['amount'];
@@ -227,11 +227,11 @@ class TransactionController extends Controller
                 $toAccount = Account::find($validatedData['to_account_id']);
 
                 if (!$fromAccount || !$toAccount) {
-                        return back()->withErrors(['message' => 'Invalid account selection.']);
+                        return back()->with('error', 'Invalid account selection.');
                 }
 
                 if ($fromAccount->balance < $validatedData['amount']) {
-                        return back()->withErrors(['message' => 'Insufficient Balance.']);
+                        return back()->with('error', 'Insufficient balance.');
                 }
 
                 $fromAccount->balance -= $validatedData['amount'];
@@ -296,11 +296,11 @@ class TransactionController extends Controller
                         $toAccount->balance -= $transaction->amount;
 
                         if (!$fromAccount || !$toAccount) {
-                                return back()->withErrors(['message' => 'Invalid account selection.']);
+                                return back()->with('error', 'Invalid account selection.');
                         }
 
                         if ($fromAccount->balance < $request->amount) {
-                                return back()->withErrors(['message' => 'Insufficient Balance.']);
+                                return back()->with('error', 'Insufficient balance.');
                         }
 
                         $fromAccount->balance -= $request->amount;
@@ -330,7 +330,7 @@ class TransactionController extends Controller
                                 $account->balance += $transaction->amount;
 
                                 if ($account->balance < $request->amount) {
-                                        return back()->withErrors(['message' => 'Insufficient funds.']);
+                                        return back()->with('error', 'Insufficient balance.');
                                 }
                         }
 
@@ -349,7 +349,7 @@ class TransactionController extends Controller
                                 $account->balance -= $request->amount;
 
                                 if ($account->balance < $request->amount) {
-                                        return back()->withErrors(['message' => 'Insufficient funds.']);
+                                        return back()->with('error', 'Insufficient funds.');
                                 }
                         }
 
