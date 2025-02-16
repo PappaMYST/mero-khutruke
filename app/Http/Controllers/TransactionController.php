@@ -381,7 +381,7 @@ class TransactionController extends Controller
                         $account->save();
                 }
 
-                return redirect()->route('dashboard')->with('success', 'Transaction updated successfully.');
+                return redirect()->route('dashboard')->with('success', 'Transaction updated successfully. Account fund has been rollbacked.');
         }
 
         //Delete Transaction

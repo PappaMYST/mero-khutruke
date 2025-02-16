@@ -36,7 +36,7 @@
                         </fieldset>
                     </div>
 
-                    <x-primary-button type="submit" class="bg-gray-700 mt-0 hover:bg-gray-500">Create
+                    <x-primary-button type="submit">Create
                         Category</x-primary-button>
                 </form>
             </div>

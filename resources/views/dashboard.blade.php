@@ -174,7 +174,7 @@
                                     $dailyExpenseTotal = $dailyTransaction->where('type', 'expense')->sum('amount');
                                     $dailyIncomeTotal = $dailyTransaction->where('type', 'income')->sum('amount');
                                 @endphp
-                                <tr class="font-semibold text-gray-300 bg-gray-900 border-t">
+                                <tr class="font-semibold text-gray-300 bg-gray-900 border-t-2">
                                     <td class="px-6 py-4">{{ $date }}</td>
                                     <td></td>
                                     <td></td>
@@ -195,7 +195,7 @@
                                 </tr>
 
                                 @foreach ($dailyTransaction as $transaction)
-                                    <tr class="bg-gray-900 border-gray-700   hover:bg-gray-600">
+                                    <tr class="bg-gray-900 border-gray-700 hover:bg-gray-600">
                                         {{-- Show date on monthly --}}
                                         @if ($viewType == 'monthly')
                                             <td class="px-6 py-4">

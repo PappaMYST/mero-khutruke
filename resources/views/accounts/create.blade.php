@@ -14,7 +14,7 @@
                         <input type="number" id="balance" name="balance"
                             class="border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 shadow-xs-light" />
                     </div>
-                    <x-primary-button type="submit" class="bg-gray-700 mt-0 hover:bg-gray-500">Create
+                    <x-primary-button type="submit">Create
                         Account</x-primary-button>
                 </form>
             </div>
