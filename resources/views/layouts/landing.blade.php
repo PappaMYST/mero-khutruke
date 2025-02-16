@@ -7,6 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- Font Style --}}
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=roboto:400,500,700" rel="stylesheet" />
 
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -21,7 +24,7 @@
     <title>{{ $title ?? 'Mero Khutruke | Personal Finance Manager' }}</title>
 </head>
 
-<body class="container">
+<body>
     @include('landing-sections.header')
     <main>
         @include('landing-sections.hero')

@@ -9,7 +9,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
 
-                <a href="/" class="flex ms-2 md:me-24">
+                <a href="{{ route('dashboard') }}" class="flex ms-2 md:me-24">
                     <img src="{{ asset('img/mero-khutruke-transparent.PNG') }}" class="h-8 me-3"
                         alt="Mero Khutruke Logo" />
                     <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-gray-100">Mero
@@ -24,8 +24,7 @@
                             class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-600"
                             aria-expanded="false" data-dropdown-toggle="dropdown-user">
                             <span class="sr-only">Open user menu</span>
-                            <img class="w-8 h-8 rounded-full"
-                                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                            <img class="w-8 h-8 rounded-full" src="{{ asset('img/avatar-icon.svg') }}" alt="user photo">
                         </button>
                     </div>
                     <div class="z-50 hidden my-4 text-base list-none  divide-y  rounded-sm shadow-sm bg-gray-700 divide-gray-600"
@@ -114,8 +113,14 @@
                 </ul>
             </li>
 
+            <li>
+                <x-nav-link url="{{ route('currency-converter.conversion') }}" icon="comments-dollar">Currency
+                    Converter</x-nav-link>
+            </li>
+
         </ul>
-        <div class="justify-end">&copy; Copyright <?php echo date('Y'); ?> Mero Khutruke. All Rights Reserved.</div>
+        <div class="text-gray-200 mt-14">&copy; Copyright <?php echo date('Y'); ?> Mero Khutruke. All Rights Reserved.
+        </div>
     </div>
 </aside>
 

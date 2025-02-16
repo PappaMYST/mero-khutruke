@@ -1,13 +1,13 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="mt-4 bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-100">
+            <div class="p-6 text-gray-200">
                 <div class="flex rounded-md shadow-xs items-center justify-between mr-1 mb-4">
                     <h2 class="text-2xl">Statistics</h2>
                     <div>
                         <a href="{{ route('transactions.charts', ['view' => 'daily', 'month' => $selectedMonth, 'year' => $selectedYear]) }}"
                             aria-current="page"
-                            class="px-4 py-2 text-sm font-medium text-gray-100 bg-gray-800 border border-gray-700 rounded-s-lg hover:bg-gray-700 hover:text-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:text-gray-100">
+                            class="px-4 py-2 text-sm font-medium text-gray-200 bg-gray-800 border border-gray-700 rounded-s-lg hover:bg-gray-700 hover:text-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:text-gray-200">
                             Daily
                         </a>
                         {{-- <a href="{{ route('dashboard', ['view' => 'monthly', 'year' => $selectedYear]) }}"
@@ -15,7 +15,7 @@
                             Settings
                         </a> --}}
                         <a href="{{ route('transactions.charts', ['view' => 'monthly', 'year' => $selectedYear]) }}"
-                            class="px-4 py-2 text-sm font-medium text-gray-100 bg-gray-800 border border-gray-700 rounded-e-lg hover:bg-gray-700 hover:text-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:text-gray-100">
+                            class="px-4 py-2 text-sm font-medium text-gray-200 bg-gray-800 border border-gray-700 rounded-e-lg hover:bg-gray-700 hover:text-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:text-gray-200">
                             Monthly
                         </a>
                     </div>

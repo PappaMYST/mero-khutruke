@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-100">
+            <div class="p-6 text-gray-200">
                 <div class="grid grid-cols-1 sm:grid-cols-2 ">
 
                     <div class="p-4 ">
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <h2 class="text-2xl font-extrabold pb-4 text-gray-100 text-center">Income Categories</h2>
+                            <h2 class="text-2xl font-extrabold pb-4 text-gray-200 text-center">Income Categories</h2>
                             <table class="w-full text-sm text-left rtl:text-right text-gray-400">
                                 <thead class="text-xs text-gray-400 uppercase bg-gray-700 ">
                                     <tr>
@@ -22,7 +22,7 @@
                                     @foreach ($categories->where('type', 'income') as $category)
                                         <tr class=" border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
                                             <td scope="row"
-                                                class="px-6 py-4 whitespace-nowrap text-gray-100 sm:text-lg">
+                                                class="px-6 py-4 whitespace-nowrap text-gray-200 sm:text-lg">
                                                 {{ $category->name }}
                                             </td>
                                             <td class="px-6 py-4 text-left">
@@ -45,7 +45,7 @@
                     </div>
                     <div class="p-4">
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <h2 class="text-2xl font-extrabold pb-4 text-gray-100 text-center">Expense Categories</h2>
+                            <h2 class="text-2xl font-extrabold pb-4 text-gray-200 text-center">Expense Categories</h2>
                             <table class="w-full text-sm text-left rtl:text-right text-gray-400">
                                 <thead class="text-xs text-gray-400 uppercase bg-gray-700 ">
                                     <tr>
@@ -61,7 +61,7 @@
                                     @foreach ($categories->where('type', 'expense') as $category)
                                         <tr class=" border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
                                             <td scope="row"
-                                                class="px-6 py-4 whitespace-nowrap text-gray-100 sm:text-lg">
+                                                class="px-6 py-4 whitespace-nowrap text-gray-200 sm:text-lg">
                                                 {{ $category->name }}
                                             </td>
                                             <td class="px-6 py-4 text-left">
