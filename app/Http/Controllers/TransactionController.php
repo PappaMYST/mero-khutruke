@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Transaction;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -123,6 +124,30 @@ class TransactionController extends Controller
                 $yearlyTotal = $yearlyIncome - $yearlyExpense;
 
                 return view('transactions.charts', compact('viewType', 'selectedMonth', 'selectedYear', 'incomeCategories', 'expenseCategories', 'monthlyTotal', 'monthlyIncome', 'monthlyExpense', 'yearlyTotal', 'yearlyIncome', 'yearlyExpense'));
+        }
+
+        //Generate PDF
+        public function generateMonthlyStatement(Request $request)
+        {
+                $month = $request->input('month', Carbon::now()->month); // Default: current month
+                $year = $request->input('year', Carbon::now()->year); // Default: current year
+
+                // Fetch transactions for the selected month
+                $transactions = Transaction::where('user_id', Auth::id())
+                        ->whereMonth('date', $month)
+                        ->whereYear('date', $year)
+                        ->orderBy('date', 'asc')
+                        ->get();
+
+                // Calculate income & expense totals
+                $totalIncome = $transactions->where('type', 'income')->sum('amount');
+                $totalExpense = $transactions->where('type', 'expense')->sum('amount');
+
+                // Generate PDF
+                $pdf = Pdf::loadView('transactions.statement', compact('transactions', 'totalIncome', 'totalExpense', 'month', 'year'));
+
+                // Return PDF for download
+                return $pdf->download("monthly-statement-$year-$month.pdf");
         }
 
         //Show create expense form

@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 sm:flex justify-between text-gray-100">
-                <span class="text-xl">
+                <span class="block text-lg">
                     @php
                         $time = date('H');
                         if ($time < 12) {
@@ -16,7 +16,7 @@
                     @endphp
                     {{ Auth::user()->name }}
                 </span>
-                <span class="text-xl">
+                <span class="block text-lg">
                     Today is
                     @php
                         echo date('l, jS \o\f F, Y');
@@ -26,15 +26,15 @@
         </div>
         {{-- Transactions --}}
         <div class="mt-4 bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-100">
+            <div class="p-6 text-gray-200">
 
 
-                <div class="flex rounded-md shadow-xs items-center justify-between mr-1 mb-4">
-                    <h2 class="text-2xl">Transactions</h2>
-                    <div>
+                <div class="sm:flex rounded-md shadow-xs items-center justify-between mr-1 mb-4">
+                    <h2 class="text-center text-2xl">Transactions</h2>
+                    <div class="my-5">
                         <a href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth, 'year' => $selectedYear]) }}"
                             aria-current="page"
-                            class="px-4 py-2 text-sm font-medium text-gray-100 bg-gray-800 border border-gray-700 rounded-s-lg hover:bg-gray-700 hover:text-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:text-gray-100 "
+                            class="px-4 py-2 text-sm font-medium text-gray-200 bg-gray-800 border border-gray-700 rounded-s-lg hover:bg-gray-700 hover:text-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:text-gray-200 "
                             onclick="showDate('daily')">
                             Daily
                         </a>
@@ -44,38 +44,46 @@
                         </a> --}}
                         <a href="{{ route('dashboard', ['view' => 'monthly', 'year' => $selectedYear]) }}"
                             class="px-4
-                            py-2 text-sm font-medium text-gray-100 bg-gray-800 border border-gray-700 rounded-e-lg
-                            hover:bg-gray-700 hover:text-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-500
-                            focus:text-gray-100">
+                            py-2 text-sm font-medium text-gray-200 bg-gray-800 border border-gray-700 rounded-e-lg
+                            hover:bg-gray-700 hover:text-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-500
+                            focus:text-gray-200">
                             Monthly
                         </a>
                     </div>
                 </div>
-                @if ($viewType == 'daily')
-                    <div>
-                        <a href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth - 1, 'year' => $selectedYear]) }}"
-                            class="active">
-                            <i class="fa fa-chevron-left text-xl mr-2 w-5 h-5"></i></a>
-                        <span class="text-xl">
-                            {{ date('F Y', mktime(0, 0, 0, $selectedMonth, 1, $selectedYear)) }}
-                        </span>
-                        <a
-                            href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth + 1, 'year' => $selectedYear]) }}"><i
-                                class="fa fa-chevron-right text-xl ml-2 w-5 h-5"></i></a>
-                    </div>
-                @endif
+                <div>
+                    @if ($viewType == 'daily')
+                        <div>
+                            <a href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth - 1, 'year' => $selectedYear]) }}"
+                                class="active">
+                                <i class="fa fa-chevron-left text-xl mr-2 w-5 h-5"></i></a>
+                            <span class="text-xl">
+                                {{ date('F Y', mktime(0, 0, 0, $selectedMonth, 1, $selectedYear)) }}
+                            </span>
+                            <a
+                                href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth + 1, 'year' => $selectedYear]) }}"><i
+                                    class="fa fa-chevron-right text-xl ml-2 w-5 h-5"></i></a>
+                        </div>
+                    @endif
 
-                @if ($viewType == 'monthly')
-                    <div>
-                        <a href="{{ route('dashboard', ['view' => 'monthly', 'year' => $selectedYear - 1]) }}"><i
-                                class="fa fa-chevron-left text-xl mr-2 w-5 h-5"></i></a>
-                        <span class="text-xl">
-                            {{ $selectedYear }}
-                        </span>
-                        <a href="{{ route('dashboard', ['view' => 'monthly', 'year' => $selectedYear + 1]) }}">
-                            <i class="fa fa-chevron-right text-xl ml-2 w-5 h-5"></i></a>
-                    </div>
-                @endif
+                    @if ($viewType == 'monthly')
+                        <div>
+                            <a href="{{ route('dashboard', ['view' => 'monthly', 'year' => $selectedYear - 1]) }}"><i
+                                    class="fa fa-chevron-left text-xl mr-2 w-5 h-5"></i></a>
+                            <span class="text-xl">
+                                {{ $selectedYear }}
+                            </span>
+                            <a href="{{ route('dashboard', ['view' => 'monthly', 'year' => $selectedYear + 1]) }}">
+                                <i class="fa fa-chevron-right text-xl ml-2 w-5 h-5"></i></a>
+                        </div>
+                    @endif
+                    {{-- <div>
+                        <form action="{{ route('transactions.statement') }}" method="GET">
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Download
+                                PDF</button>
+                        </form>
+                    </div> --}}
+                </div>
                 {{-- Transaction Table --}}
                 @if ($viewType == 'daily')
                     <div class="relative mt-4 overflow-x-auto shadow-md sm:rounded-lg">

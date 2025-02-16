@@ -1,5 +1,5 @@
 <section id="contact" class="bg-gray-900 ">
-    <div class="container px-10 py-8 mx-auto">
+    <div class="container px-6 py-8 mx-auto">
         <div class="lg:flex lg:items-center lg:-mx-6">
             <div class="lg:w-1/2 lg:mx-6">
                 <h1 class="text-2xl font-semibold capitalize text-gray-100 lg:text-3xl">
@@ -47,13 +47,10 @@
                     <h3 class="text-gray-300 ">Follow us</h3>
 
                     <div class="flex mt-4 -mx-1.5 ">
-                        <a class="mx-1.5 hover:text-blue-400 text-gray-400 transition-colors duration-300 transform"
-                            href="#">
-                            <svg class="w-10 h-10 fill-current" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M18.6668 6.67334C18.0002 7.00001 17.3468 7.13268 16.6668 7.33334C15.9195 6.49001 14.8115 6.44334 13.7468 6.84201C12.6822 7.24068 11.9848 8.21534 12.0002 9.33334V10C9.83683 10.0553 7.91016 9.07001 6.66683 7.33334C6.66683 7.33334 3.87883 12.2887 9.3335 14.6667C8.0855 15.498 6.84083 16.0587 5.3335 16C7.53883 17.202 9.94216 17.6153 12.0228 17.0113C14.4095 16.318 16.3708 14.5293 17.1235 11.85C17.348 11.0351 17.4595 10.1932 17.4548 9.34801C17.4535 9.18201 18.4615 7.50001 18.6668 6.67268V6.67334Z" />
-                            </svg>
+                        <a target="_blank"
+                            class="mx-1.5 hover:text-blue-400 text-gray-400 transition-colors duration-300 transform"
+                            href="https://github.com/PappaMYST/mero-khutruke-v3.git">
+                            <i class="fa-brands fa-github text-2xl"></i>
                         </a>
                     </div>
                 </div>
@@ -67,13 +64,13 @@
                     <form class="mt-6">
                         <div class="flex-1">
                             <label class="block mb-2 text-sm text-gray-200">Full Name</label>
-                            <input type="text" placeholder="John Doe"
+                            <input type="text" placeholder="Your name here"
                                 class="block w-full px-5 py-3 mt-2  border  rounded-md placeholder-gray-500 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                         </div>
 
                         <div class="flex-1 mt-6">
                             <label class="block mb-2 text-sm text-gray-200">Email address</label>
-                            <input type="email" placeholder="johndoe@example.com"
+                            <input type="email" placeholder="Your email here"
                                 class="block w-full px-5 py-3 mt-2  border  rounded-md placeholder-gray-500 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                         </div>
 

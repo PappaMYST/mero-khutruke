@@ -1,10 +1,11 @@
-<header class="bg-gray-900">
+<header class="bg-gray-900 border-b-4 border-gray-800">
     <nav x-data="{ isOpen: false }" class="px-4 py-4 shadow">
         <div class="lg:items-center lg:justify-between lg:flex">
             <div class="flex items-center justify-between">
-                <a href="#" class="mx-auto ">
+                <a href="/" class="mx-auto ">
                     <img class="h-20" src="{{ @asset('img/mero-khutruke-transparent.PNG') }}" alt="">
                 </a>
+                <h1 class="text-2xl text-gray-100 font-bold"><a href="/">Mero Khutruke</a></h1>
 
                 <!-- Mobile menu button -->
                 <div class="lg:hidden">
@@ -31,7 +32,7 @@
                 <x-landing-nav-link url="#about">About Us</x-landing-nav-link>
                 <x-landing-nav-link url="#features">Features</x-landing-nav-link>
                 <x-landing-nav-link url="#blogs">Blogs</x-landing-nav-link>
-                <x-landing-nav-link url="#contactus">Contact Us</x-landing-nav-link>
+                <x-landing-nav-link url="#contact">Contact Us</x-landing-nav-link>
                 <x-landing-button-link url="/login" bgClass="bg-gray-200" textClass="text-gray-700"
                     hoverClass="hover:bg-gray-300" icon="arrow-right">
                     Get Started

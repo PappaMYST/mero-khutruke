@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +43,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/transaction/{id}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::delete('/transaction/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 
+    Route::get('/transaction/statement', [TransactionController::class, 'generateMonthlyStatement'])->name('transactions.statement');
+    //Currency Converter
+    Route::get('/currency-converter', function () {
+        return view('currency-converter.conversion');
+    })->name('currency-converter.conversion');
 });
 
 //Email Verification Route
