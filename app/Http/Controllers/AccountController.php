@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -90,11 +91,16 @@ class AccountController extends Controller
             'balance' => $newBalance
         ]);
 
+        $defaultCategory = Category::firstOrCreate([
+            'user_id' => Auth::id(),
+            'name' => 'Balance Adjustment'
+        ], ['type' => 'income']);
+
         if ($newBalance < $oldBalance) {
             Transaction::create([
                 'user_id' => Auth::id(),
                 'account_id' => $account->id,
-                'category_id' => null,
+                'category_id' => $defaultCategory->id,
                 'amount' => $oldBalance - $newBalance,
                 'type' => 'expense',
                 'date' => now(),
@@ -105,7 +111,7 @@ class AccountController extends Controller
             Transaction::create([
                 'user_id' => Auth::id(),
                 'account_id' => $account->id,
-                'category_id' => null,
+                'category_id' => $defaultCategory->id,
                 'amount' => $newBalance - $oldBalance,
                 'type' => 'income',
                 'date' => now(),
