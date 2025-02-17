@@ -19,6 +19,14 @@ class TransactionController extends Controller
                 $selectedMonth = $request->input('month', Carbon::now()->format('m'));
                 $selectedYear = $request->input('year', Carbon::now()->format('Y'));
 
+                if ($selectedMonth < 1) {
+                        $selectedMonth = 12;
+                        $selectedYear -= 1;
+                } elseif ($selectedMonth > 12) {
+                        $selectedMonth = 1;
+                        $selectedYear += 1;
+                }
+
 
                 if ($viewType == 'daily') {
                         $transactions = Transaction::where('user_id', Auth::id())
@@ -74,6 +82,14 @@ class TransactionController extends Controller
 
                 $selectedMonth = $request->input('month', Carbon::now()->format('m'));
                 $selectedYear = $request->input('year', Carbon::now()->format('Y'));
+
+                if ($selectedMonth < 1) {
+                        $selectedMonth = 12;
+                        $selectedYear -= 1;
+                } elseif ($selectedMonth > 12) {
+                        $selectedMonth = 1;
+                        $selectedYear += 1;
+                }
 
                 $transactionQuery = Transaction::where('user_id', Auth::id());
 

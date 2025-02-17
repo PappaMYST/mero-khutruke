@@ -23,13 +23,13 @@
                 @if ($viewType == 'daily')
                     <div>
                         <a
-                            href="{{ route('transactions.charts', ['view' => 'daily', 'month' => $selectedMonth - 1, 'year' => $selectedYear]) }}">
+                            href="{{ route('transactions.charts', ['view' => 'daily', 'month' => $selectedMonth == 1 ? 12 : $selectedMonth - 1, 'year' => $selectedMonth == 1 ? $selectedYear - 1 : $selectedYear]) }}">
                             <i class="fa fa-chevron-left text-xl mr-2 w-5 h-5"></i></a>
                         <span class="text-xl">
                             {{ date('F Y', mktime(0, 0, 0, $selectedMonth, 1, $selectedYear)) }}
                         </span>
                         <a
-                            href="{{ route('transactions.charts', ['view' => 'daily', 'month' => $selectedMonth + 1, 'year' => $selectedYear]) }}"><i
+                            href="{{ route('transactions.charts', ['view' => 'daily', 'month' => $selectedMonth == 12 ? 1 : $selectedMonth + 1, 'year' => $selectedMonth == 12 ? $selectedYear + 1 : $selectedYear]) }}"><i
                                 class="fa fa-chevron-right text-xl ml-2 w-5 h-5"></i></a>
                     </div>
                 @endif

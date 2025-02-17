@@ -53,19 +53,17 @@
                 <div>
                     @if ($viewType == 'daily')
                         <div>
-                            <a href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth - 1, 'year' => $selectedYear]) }}"
-                                class="active">
+                            <a
+                                href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth == 1 ? 12 : $selectedMonth - 1, 'year' => $selectedMonth == 1 ? $selectedYear - 1 : $selectedYear]) }}">
                                 <i class="fa fa-chevron-left text-xl mr-2 w-5 h-5"></i></a>
                             <span class="text-xl">
                                 {{ date('F Y', mktime(0, 0, 0, $selectedMonth, 1, $selectedYear)) }}
                             </span>
                             <a
-                                href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth + 1, 'year' => $selectedYear]) }}"><i
+                                href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth == 12 ? 1 : $selectedMonth + 1, 'year' => $selectedMonth == 12 ? $selectedYear + 1 : $selectedYear]) }}"><i
                                     class="fa fa-chevron-right text-xl ml-2 w-5 h-5"></i></a>
                         </div>
-                    @endif
-
-                    @if ($viewType == 'monthly')
+                    @elseif ($viewType == 'monthly')
                         <div>
                             <a href="{{ route('dashboard', ['view' => 'monthly', 'year' => $selectedYear - 1]) }}"><i
                                     class="fa fa-chevron-left text-xl mr-2 w-5 h-5"></i></a>
@@ -76,6 +74,10 @@
                                 <i class="fa fa-chevron-right text-xl ml-2 w-5 h-5"></i></a>
                         </div>
                     @endif
+
+                    {{-- @if ($viewType == 'monthly')
+                        
+                    @endif --}}
                     {{-- <div>
                         <form action="{{ route('transactions.statement') }}" method="GET">
                             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Download
