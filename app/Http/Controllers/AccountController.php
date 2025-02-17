@@ -34,8 +34,8 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'balance' => 'required|numeric|min:0'
+            'name' => 'required|regex:/^[a-zA-Z ]+$/|max:255',
+            'balance' => 'required|numeric|min:0.01'
         ]);
 
         Account::create([
@@ -77,7 +77,7 @@ class AccountController extends Controller
         }
 
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|regex:/^[a-zA-Z ]+$/|max:255',
             'balance' => 'required|numeric|min:0'
         ]);
 
@@ -88,7 +88,6 @@ class AccountController extends Controller
 
         return redirect()->route('accounts.index')->with('success', 'Account updated successfully.');
     }
-
     /**
      * Remove the specified resource from storage.
      */

@@ -35,7 +35,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|regex:/^[a-zA-Z ]+$/|max:255',
             'type' => 'required|in:income,expense'
         ]);
 
