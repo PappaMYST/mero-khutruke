@@ -20,10 +20,20 @@
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-text-input id="password"
+        <div x-data="{ show: false }" class="mt-4 relative">
+            {{-- <x-text-input 
                 class="border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 shadow-xs-light"
-                type="password" name="password" required autocomplete="current-password" placeholder="Password" />
+                id="password" :type="show ? 'text' : 'password'" name="password" required autocomplete="current-password" placeholder="Password" /> --}}
+
+            <input
+                class="border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 shadow-xs-light"
+                id="password" :type="show ? 'text' : 'password'" name="password" required
+                autocomplete="current-password" placeholder="Password" />
+            <i @click="show = !show"
+                class="absolute inset-y-0 right-4 top-2
+                    flex items-center mt-1 
+                    cursor-pointer fa fa-eye text-gray-200 text-lg hover:text-gray-400 "></i>
+
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
