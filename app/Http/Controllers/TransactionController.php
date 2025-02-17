@@ -179,7 +179,7 @@ class TransactionController extends Controller
                         'account_id' => 'required|exists:accounts,id',
                         'category_id' => 'required|exists:categories,id',
                         'date' => 'required|date|before_or_equal:today',
-                        'amount' => 'required|decimal:0.01,100000000',
+                        'amount' => 'required|numeric|min:0.01',
                         'note' => 'nullable|string'
                 ]);
 
@@ -213,7 +213,7 @@ class TransactionController extends Controller
                         'account_id' => 'required|exists:accounts,id',
                         'category_id' => 'required|exists:categories,id',
                         'date' => 'required|date|before_or_equal:today',
-                        'amount' => 'required|decimal:0.01,100000000',
+                        'amount' => 'required|numeric|min:0.01',
                         'note' => 'nullable|string'
                 ]);
 
@@ -243,7 +243,7 @@ class TransactionController extends Controller
                         'from_account_id' => 'required|exists:accounts,id|different:to_account_id',
                         'to_account_id' => 'required|exists:accounts,id',
                         'date' => 'required|date|',
-                        'amount' => 'required|decimal:0.01,100000000',
+                        'amount' => 'required|numeric|min:0.01',
                         'note' => 'nullable|string'
                 ]);
 
@@ -302,7 +302,7 @@ class TransactionController extends Controller
 
                 $request->validate([
                         'date' => 'required|date|before_or_equal:today',
-                        'amount' => 'required|decimal:0.01,100000000',
+                        'amount' => 'required|numeric|min:0.01',
                         'note' => 'nullable|string'
                 ]);
 
