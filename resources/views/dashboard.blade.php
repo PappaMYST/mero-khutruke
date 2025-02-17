@@ -75,9 +75,6 @@
                         </div>
                     @endif
 
-                    {{-- @if ($viewType == 'monthly')
-                        
-                    @endif --}}
                     {{-- <div>
                         <form action="{{ route('transactions.statement') }}" method="GET">
                             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Download

@@ -44,7 +44,7 @@
             </tbody>
         </table>
     </div>
-    <x-nav-link url="{{ route('accounts.create') }}" class="mt-4 text-center bg-blue-800 hover:bg-blue-700"
+    <x-nav-link url="{{ route('accounts.create') }}" class="mt-4 text-center bg-blue-800 hover:bg-blue-500"
         icon="">Add New
         Account</x-nav-link>
 </x-app-layout>

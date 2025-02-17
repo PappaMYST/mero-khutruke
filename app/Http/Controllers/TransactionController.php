@@ -298,7 +298,7 @@ class TransactionController extends Controller
         //Edit Transaction
         public function edit($id)
         {
-                $transaction = Transaction::findOrFail($id)->where('user_id', Auth::id());
+                $transaction = Transaction::findOrFail($id);
                 $categories = Category::all()->where('user_id', Auth::id());
                 $accounts = Account::all()->where('user_id', Auth::id());
 
@@ -313,8 +313,8 @@ class TransactionController extends Controller
         public function update(Request $request, $id)
         {
 
-                $transaction = Transaction::findOrFail($id)->where('user_id', Auth::id());
-                $account = Account::findOrFail($transaction->account_id)->where('user_id', Auth::id());
+                $transaction = Transaction::findOrFail($id);
+                $account = Account::findOrFail($transaction->account_id);
 
                 $request->validate([
                         'date' => 'required|date|before_or_equal:today',
