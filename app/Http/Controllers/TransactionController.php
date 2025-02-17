@@ -282,9 +282,9 @@ class TransactionController extends Controller
         //Edit Transaction
         public function edit($id)
         {
-                $transaction = Transaction::findOrFail($id);
-                $categories = Category::all();
-                $accounts = Account::all();
+                $transaction = Transaction::findOrFail($id)->where('user_id', Auth::id());
+                $categories = Category::all()->where('user_id', Auth::id());
+                $accounts = Account::all()->where('user_id', Auth::id());
 
                 if ($transaction->type === 'transfer') {
                         return view('transactions.edit-transfer', compact('transaction', 'categories', 'accounts'));
@@ -297,8 +297,8 @@ class TransactionController extends Controller
         public function update(Request $request, $id)
         {
 
-                $transaction = Transaction::findOrFail($id);
-                $account = Account::findOrFail($transaction->account_id);
+                $transaction = Transaction::findOrFail($id)->where('user_id', Auth::id());
+                $account = Account::findOrFail($transaction->account_id)->where('user_id', Auth::id());
 
                 $request->validate([
                         'date' => 'required|date|before_or_equal:today',
