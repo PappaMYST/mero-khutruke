@@ -34,8 +34,7 @@
                     <div class="my-5">
                         <a href="{{ route('dashboard', ['view' => 'daily', 'month' => $selectedMonth, 'year' => $selectedYear]) }}"
                             aria-current="page"
-                            class="px-4 py-2 text-sm font-medium text-gray-200 bg-gray-800 border border-gray-700 rounded-s-lg hover:bg-gray-700 hover:text-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:text-gray-200 "
-                            onclick="showDate('daily')">
+                            class="px-4 py-2 text-sm font-medium text-gray-200 bg-gray-800 border border-gray-700 rounded-s-lg hover:bg-gray-700 hover:text-gray-200 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:text-gray-200 ">
                             Daily
                         </a>
                         {{-- <a href="{{ route('dashboard', ['view' => 'monthly', 'year' => $selectedYear]) }}"

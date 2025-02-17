@@ -66,7 +66,7 @@
 
                     <div class="mb-5">
                         <label for="amount" class="block mb-2 text-sm font-medium text-gray-200">Amount</label>
-                        <input type="number" id="amount" name="amount"
+                        <input type="number" id="amount" name="amount" min="0.01" step="0.01"
                             class="border text-gray-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 shadow-xs-light" />
                         @error('amount')
                             <div class="text-red-500 mt-2 text-sm">{{ $message }}</div>

@@ -9,7 +9,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class TransactionController extends Controller
 {
@@ -179,8 +178,8 @@ class TransactionController extends Controller
                 $validatedData = $request->validate([
                         'account_id' => 'required|exists:accounts,id',
                         'category_id' => 'required|exists:categories,id',
-                        'date' => 'required|date',
-                        'amount' => 'required|numeric|min:0.01',
+                        'date' => 'required|date|before_or_equal:today',
+                        'amount' => 'required|decimal:0.01,100000000',
                         'note' => 'nullable|string'
                 ]);
 
@@ -213,8 +212,8 @@ class TransactionController extends Controller
                 $validatedData = $request->validate([
                         'account_id' => 'required|exists:accounts,id',
                         'category_id' => 'required|exists:categories,id',
-                        'date' => 'required|date',
-                        'amount' => 'required|numeric|min:0.01',
+                        'date' => 'required|date|before_or_equal:today',
+                        'amount' => 'required|decimal:0.01,100000000',
                         'note' => 'nullable|string'
                 ]);
 
@@ -243,8 +242,8 @@ class TransactionController extends Controller
                 $validatedData = $request->validate([
                         'from_account_id' => 'required|exists:accounts,id|different:to_account_id',
                         'to_account_id' => 'required|exists:accounts,id',
-                        'date' => 'required|date',
-                        'amount' => 'required|numeric|min:0.01',
+                        'date' => 'required|date|',
+                        'amount' => 'required|decimal:0.01,100000000',
                         'note' => 'nullable|string'
                 ]);
 
@@ -302,8 +301,8 @@ class TransactionController extends Controller
                 $account = Account::findOrFail($transaction->account_id);
 
                 $request->validate([
-                        'date' => 'required|date',
-                        'amount' => 'required|numeric|min:0.01',
+                        'date' => 'required|date|before_or_equal:today',
+                        'amount' => 'required|decimal:0.01,100000000',
                         'note' => 'nullable|string'
                 ]);
 
