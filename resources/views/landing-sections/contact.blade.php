@@ -59,18 +59,25 @@
             <div class="mt-8 lg:w-1/2 lg:mx-6">
                 <div
                     class="w-full px-8 py-10 mx-auto overflow-hidden rounded-lg shadow-2xl bg-gray-900 lg:max-w-xl shadow-gray-300/50">
-                    <h1 class="text-lg font-medium text-gray-200">What do you want to ask</h1>
-
-                    <form class="mt-6">
+                    <h1 class="text-lg mb-2 font-medium text-gray-200">What do you want to ask</h1>
+                    {{-- Display alert messages --}}
+                    @if (session('success'))
+                        <x-alert type="success" message="{{ session('success') }}"></x-alert>
+                    @endif
+                    @if (session('error'))
+                        <x-alert type="error" message="{{ session('error') }}"></x-alert>
+                    @endif
+                    <form action="{{ route('contact.submitForm') }}" method="POST" class="mt-6">
+                        @csrf
                         <div class="flex-1">
                             <label class="block mb-2 text-sm text-gray-200">Full Name</label>
-                            <input type="text" placeholder="Your name here"
+                            <input type="text" placeholder="Your name here" name="name"
                                 class="block w-full px-5 py-3 mt-2  border  rounded-md placeholder-gray-500 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                         </div>
 
                         <div class="flex-1 mt-6">
                             <label class="block mb-2 text-sm text-gray-200">Email address</label>
-                            <input type="email" placeholder="Your email here"
+                            <input type="email" placeholder="Your email here" name="email"
                                 class="block w-full px-5 py-3 mt-2  border  rounded-md placeholder-gray-500 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                         </div>
 
@@ -78,7 +85,7 @@
                             <label class="block mb-2 text-sm text-gray-200">Message</label>
                             <textarea
                                 class="block w-full px-5 py-3 mt-2  border  rounded-md placeholder-gray-500 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                                placeholder="Message"></textarea>
+                                placeholder="Message" name="messageContent"></textarea>
                         </div>
 
                         <button

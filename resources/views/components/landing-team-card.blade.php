@@ -8,6 +8,5 @@
     <img class="m-auto object-cover object-center w-80 h-80 rounded-lg" src="{{ $src }}" alt="avatar" />
     <div class="mt-2">
         <h3 class="text-lg font-medium text-gray-200">{{ $name }}</h3>
-        <span class="mt-1 font-medium text-gray-300">{{ $title }}</span>
     </div>
 </div>

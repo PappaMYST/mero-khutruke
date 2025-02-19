@@ -142,15 +142,50 @@ class TransactionController extends Controller
         }
 
         //Generate PDF
-        public function generateMonthlyStatement(Request $request)
+        // public function generateMonthlyStatement(Request $request)
+        // {
+        //         $month = $request->input('month', Carbon::now()->month); // Default: current month
+        //         $year = $request->input('year', Carbon::now()->year); // Default: current year
+
+        //         // Fetch transactions for the selected month
+        //         $transactions = Transaction::where('user_id', Auth::id())
+        //                 ->whereMonth('date', $month)
+        //                 ->whereYear('date', $year)
+        //                 ->orderBy('date', 'asc')
+        //                 ->get();
+
+        //         // Calculate income & expense totals
+        //         $totalIncome = $transactions->where('type', 'income')->sum('amount');
+        //         $totalExpense = $transactions->where('type', 'expense')->sum('amount');
+
+        //         // Generate PDF
+        //         $pdf = Pdf::loadView('transactions.statement', compact('transactions', 'totalIncome', 'totalExpense', 'month', 'year'));
+
+        //         // Return PDF for download
+        //         return $pdf->download("monthly-statement-$year-$month.pdf");
+        //
+        public function showMonthlyPDFView()
         {
-                $month = $request->input('month', Carbon::now()->month); // Default: current month
-                $year = $request->input('year', Carbon::now()->year); // Default: current year
+                // Get distinct months that have transactions
+                $months = Transaction::selectRaw("DATE_FORMAT(date, '%Y-%m') as month")
+                        ->groupBy('month')
+                        ->orderBy('month', 'desc')
+                        ->get();
+
+                return view('transactions.statement.pdf', compact('months'));
+        }
+
+        public function generateMonthlyPDF(Request $request)
+        {
+                $request->validate([
+                        'month' => 'required|date_format:Y-m',
+                ]);
+
+                $selectedMonth = $request->month;
 
                 // Fetch transactions for the selected month
-                $transactions = Transaction::where('user_id', Auth::id())
-                        ->whereMonth('date', $month)
-                        ->whereYear('date', $year)
+                $transactions = Transaction::whereYear('date', substr($selectedMonth, 0, 4))
+                        ->whereMonth('date', substr($selectedMonth, 5, 2))
                         ->orderBy('date', 'asc')
                         ->get();
 
@@ -158,12 +193,12 @@ class TransactionController extends Controller
                 $totalIncome = $transactions->where('type', 'income')->sum('amount');
                 $totalExpense = $transactions->where('type', 'expense')->sum('amount');
 
-                // Generate PDF
-                $pdf = Pdf::loadView('transactions.statement', compact('transactions', 'totalIncome', 'totalExpense', 'month', 'year'));
+                $pdf = Pdf::loadView('transactions.statement.pdf_template', compact('transactions', 'selectedMonth', 'totalIncome', 'totalExpense'));
 
-                // Return PDF for download
-                return $pdf->download("monthly-statement-$year-$month.pdf");
+                return $pdf->stream("transactions_{$selectedMonth}.pdf");
         }
+
+
 
         //Show create expense form
         public function createExpense()

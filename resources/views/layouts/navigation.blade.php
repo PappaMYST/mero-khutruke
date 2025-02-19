@@ -117,6 +117,10 @@
                 <x-nav-link url="{{ route('currency-converter.conversion') }}" icon="comments-dollar">Currency
                     Converter</x-nav-link>
             </li>
+            <li>
+                <x-nav-link url="{{ route('transactions.statement.pdf_view') }}" icon="file-export">Export
+                    Data</x-nav-link>
+            </li>
 
         </ul>
         <div class="text-gray-200 mt-14">&copy; Copyright <?php echo date('Y'); ?> Mero Khutruke. All Rights Reserved.

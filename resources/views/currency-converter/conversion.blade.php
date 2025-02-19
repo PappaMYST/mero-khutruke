@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-200">
-                <h2 class="text-2xl mb-5">Currency Convertor</h2>
+                <h2 class="text-2xl mb-5 text-center">Currency Convertor</h2>
                 <div class="mb-5">
                     <fieldset>
                         <label for="currencies" class="block mb-2 text-sm font-medium text-gray-200">Desired
