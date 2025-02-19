@@ -27,10 +27,17 @@
 
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-text-input id="password"
+        <div x-data="{ show: false }" class="mt-4 relative">
+            <x-text-input x-bind:type="show ? 'text' : 'password'" id="password"
                 class="border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 shadow-xs-light"
-                type="password" name="password" required autocomplete="new-password" placeholder="Password" />
+                name="password" required autocomplete="new-password" placeholder="Password" />
+
+            <div x-on:click="show = !show"
+                class="absolute inset-y-0 right-4
+                    flex items-center
+                    cursor-pointer text-gray-200 text-lg">
+                <i class="fa" x-bind:class="show ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </div>
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 

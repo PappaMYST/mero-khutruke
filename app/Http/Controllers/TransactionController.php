@@ -9,7 +9,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class TransactionController extends Controller
 {
@@ -19,6 +18,14 @@ class TransactionController extends Controller
 
                 $selectedMonth = $request->input('month', Carbon::now()->format('m'));
                 $selectedYear = $request->input('year', Carbon::now()->format('Y'));
+
+                if ($selectedMonth < 1) {
+                        $selectedMonth = 12;
+                        $selectedYear -= 1;
+                } elseif ($selectedMonth > 12) {
+                        $selectedMonth = 1;
+                        $selectedYear += 1;
+                }
 
 
                 if ($viewType == 'daily') {
@@ -76,6 +83,14 @@ class TransactionController extends Controller
                 $selectedMonth = $request->input('month', Carbon::now()->format('m'));
                 $selectedYear = $request->input('year', Carbon::now()->format('Y'));
 
+                if ($selectedMonth < 1) {
+                        $selectedMonth = 12;
+                        $selectedYear -= 1;
+                } elseif ($selectedMonth > 12) {
+                        $selectedMonth = 1;
+                        $selectedYear += 1;
+                }
+
                 $transactionQuery = Transaction::where('user_id', Auth::id());
 
                 if ($viewType == 'daily') {
@@ -127,15 +142,50 @@ class TransactionController extends Controller
         }
 
         //Generate PDF
-        public function generateMonthlyStatement(Request $request)
+        // public function generateMonthlyStatement(Request $request)
+        // {
+        //         $month = $request->input('month', Carbon::now()->month); // Default: current month
+        //         $year = $request->input('year', Carbon::now()->year); // Default: current year
+
+        //         // Fetch transactions for the selected month
+        //         $transactions = Transaction::where('user_id', Auth::id())
+        //                 ->whereMonth('date', $month)
+        //                 ->whereYear('date', $year)
+        //                 ->orderBy('date', 'asc')
+        //                 ->get();
+
+        //         // Calculate income & expense totals
+        //         $totalIncome = $transactions->where('type', 'income')->sum('amount');
+        //         $totalExpense = $transactions->where('type', 'expense')->sum('amount');
+
+        //         // Generate PDF
+        //         $pdf = Pdf::loadView('transactions.statement', compact('transactions', 'totalIncome', 'totalExpense', 'month', 'year'));
+
+        //         // Return PDF for download
+        //         return $pdf->download("monthly-statement-$year-$month.pdf");
+        //
+        public function showMonthlyPDFView()
         {
-                $month = $request->input('month', Carbon::now()->month); // Default: current month
-                $year = $request->input('year', Carbon::now()->year); // Default: current year
+                // Get distinct months that have transactions
+                $months = Transaction::selectRaw("DATE_FORMAT(date, '%Y-%m') as month")
+                        ->groupBy('month')
+                        ->orderBy('month', 'desc')
+                        ->get();
+
+                return view('transactions.statement.pdf', compact('months'));
+        }
+
+        public function generateMonthlyPDF(Request $request)
+        {
+                $request->validate([
+                        'month' => 'required|date_format:Y-m',
+                ]);
+
+                $selectedMonth = $request->month;
 
                 // Fetch transactions for the selected month
-                $transactions = Transaction::where('user_id', Auth::id())
-                        ->whereMonth('date', $month)
-                        ->whereYear('date', $year)
+                $transactions = Transaction::whereYear('date', substr($selectedMonth, 0, 4))
+                        ->whereMonth('date', substr($selectedMonth, 5, 2))
                         ->orderBy('date', 'asc')
                         ->get();
 
@@ -143,12 +193,12 @@ class TransactionController extends Controller
                 $totalIncome = $transactions->where('type', 'income')->sum('amount');
                 $totalExpense = $transactions->where('type', 'expense')->sum('amount');
 
-                // Generate PDF
-                $pdf = Pdf::loadView('transactions.statement', compact('transactions', 'totalIncome', 'totalExpense', 'month', 'year'));
+                $pdf = Pdf::loadView('transactions.statement.pdf_template', compact('transactions', 'selectedMonth', 'totalIncome', 'totalExpense'));
 
-                // Return PDF for download
-                return $pdf->download("monthly-statement-$year-$month.pdf");
+                return $pdf->stream("transactions_{$selectedMonth}.pdf");
         }
+
+
 
         //Show create expense form
         public function createExpense()
@@ -179,7 +229,7 @@ class TransactionController extends Controller
                 $validatedData = $request->validate([
                         'account_id' => 'required|exists:accounts,id',
                         'category_id' => 'required|exists:categories,id',
-                        'date' => 'required|date',
+                        'date' => 'required|date|before_or_equal:today',
                         'amount' => 'required|numeric|min:0.01',
                         'note' => 'nullable|string'
                 ]);
@@ -213,7 +263,7 @@ class TransactionController extends Controller
                 $validatedData = $request->validate([
                         'account_id' => 'required|exists:accounts,id',
                         'category_id' => 'required|exists:categories,id',
-                        'date' => 'required|date',
+                        'date' => 'required|date|before_or_equal:today',
                         'amount' => 'required|numeric|min:0.01',
                         'note' => 'nullable|string'
                 ]);
@@ -243,7 +293,7 @@ class TransactionController extends Controller
                 $validatedData = $request->validate([
                         'from_account_id' => 'required|exists:accounts,id|different:to_account_id',
                         'to_account_id' => 'required|exists:accounts,id',
-                        'date' => 'required|date',
+                        'date' => 'required|date|',
                         'amount' => 'required|numeric|min:0.01',
                         'note' => 'nullable|string'
                 ]);
@@ -284,8 +334,8 @@ class TransactionController extends Controller
         public function edit($id)
         {
                 $transaction = Transaction::findOrFail($id);
-                $categories = Category::all();
-                $accounts = Account::all();
+                $categories = Category::all()->where('user_id', Auth::id());
+                $accounts = Account::all()->where('user_id', Auth::id());
 
                 if ($transaction->type === 'transfer') {
                         return view('transactions.edit-transfer', compact('transaction', 'categories', 'accounts'));
@@ -302,7 +352,7 @@ class TransactionController extends Controller
                 $account = Account::findOrFail($transaction->account_id);
 
                 $request->validate([
-                        'date' => 'required|date',
+                        'date' => 'required|date|before_or_equal:today',
                         'amount' => 'required|numeric|min:0.01',
                         'note' => 'nullable|string'
                 ]);
@@ -381,7 +431,7 @@ class TransactionController extends Controller
                         $account->save();
                 }
 
-                return redirect()->route('dashboard')->with('success', 'Transaction updated successfully.');
+                return redirect()->route('dashboard')->with('success', 'Transaction updated successfully. Account fund has been rollbacked.');
         }
 
         //Delete Transaction

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Category;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,7 +37,7 @@ class AccountController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'balance' => 'required|numeric|min:0'
+            'balance' => 'required|numeric|min:0.01'
         ]);
 
         Account::create([
@@ -81,14 +83,45 @@ class AccountController extends Controller
             'balance' => 'required|numeric|min:0'
         ]);
 
+        $oldBalance = $account->balance;
+        $newBalance = $request->balance;
+
         $account->update([
             'name' => $validatedData['name'],
-            'balance' => $validatedData['balance']
+            'balance' => $newBalance
         ]);
+
+        $defaultCategory = Category::firstOrCreate([
+            'user_id' => Auth::id(),
+            'name' => 'Balance Adjustment'
+        ], ['type' => 'income']);
+
+        if ($newBalance < $oldBalance) {
+            Transaction::create([
+                'user_id' => Auth::id(),
+                'account_id' => $account->id,
+                'category_id' => $defaultCategory->id,
+                'amount' => $oldBalance - $newBalance,
+                'type' => 'expense',
+                'date' => now(),
+                'note' => 'Balance Modified'
+
+            ]);
+        } elseif ($newBalance > $oldBalance) {
+            Transaction::create([
+                'user_id' => Auth::id(),
+                'account_id' => $account->id,
+                'category_id' => $defaultCategory->id,
+                'amount' => $newBalance - $oldBalance,
+                'type' => 'income',
+                'date' => now(),
+                'note' => 'Balance Modified'
+
+            ]);
+        }
 
         return redirect()->route('accounts.index')->with('success', 'Account updated successfully.');
     }
-
     /**
      * Remove the specified resource from storage.
      */

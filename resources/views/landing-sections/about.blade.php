@@ -31,12 +31,9 @@
             Our Team
         </h2>
         <div class="grid mt-8 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ">
-            <x-landing-team-card name="Darshan Shakya" title="Backend Developer"
-                src="{{ asset('img/darshan.jpg') }}"></x-landing-team-card>
-            <x-landing-team-card name="Sanjiv Rai" title="Frontend Developer"
-                src="{{ asset('img/sanjiv2.jpg') }}"></x-landing-team-card>
-            <x-landing-team-card name="Santosh Rai" title="Fullstack Developer"
-                src="{{ asset('img/santosh.jpg') }}"></x-landing-team-card>
+            <x-landing-team-card name="Darshan Shakya" src="{{ asset('img/darshan.jpg') }}"></x-landing-team-card>
+            <x-landing-team-card name="Sanjiv Rai" src="{{ asset('img/sanjiv2.jpg') }}"></x-landing-team-card>
+            <x-landing-team-card name="Santosh Rai" src="{{ asset('img/santosh.jpg') }}"></x-landing-team-card>
         </div>
     </div>
 

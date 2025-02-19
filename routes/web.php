@@ -2,9 +2,13 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
+use App\Mail\Contact;
+use App\Models\ContactForm;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -12,6 +16,9 @@ use Illuminate\Http\Request;
 Route::get('/', function () {
     return view('layouts.landing');
 });
+
+//Contact Us Form
+Route::post('/', [ContactController::class, 'contactSubmit'])->name('contact.submitForm');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     //Profile 'preconfigured'
@@ -43,7 +50,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/transaction/{id}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::delete('/transaction/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 
-    Route::get('/transaction/statement', [TransactionController::class, 'generateMonthlyStatement'])->name('transactions.statement');
+    Route::get('/transactions/pdf', [TransactionController::class, 'showMonthlyPDFView'])->name('transactions.statement.pdf_view');
+    Route::post('/transactions/pdf/generate', [TransactionController::class, 'generateMonthlyPDF'])->name('transactions.statement.pdf_generate');
+
+
     //Currency Converter
     Route::get('/currency-converter', function () {
         return view('currency-converter.conversion');

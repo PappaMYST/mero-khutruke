@@ -82,9 +82,8 @@
                         </div>
                     </div>
                 </div>
-
-
-                <x-nav-link url="{{ route('categories.create') }}" class="text-center bg-gray-700" icon="">Add
+                <x-nav-link url="{{ route('categories.create') }}"
+                    class="mt-4 text-center bg-blue-700 hover:bg-blue-500" icon="">Add
                     New
                     Category</x-nav-link>
             </div>

@@ -1,7 +1,7 @@
 <section id="features" class="bg-gray-900 border-b-4 border-gray-800">
     <div class="container px-6 py-8 mx-auto">
-        <h1 class="text-2xl font-semibold  capitalize lg:text-3xl text-gray-200">explore our <br> awesome
-         Features
+        <h1 class="text-2xl font-semibold  capitalize lg:text-3xl text-gray-200">explore our awesome
+            Features
         </h1>
 
         <p class="mt-4 xl:mt-6 text-gray-300">
