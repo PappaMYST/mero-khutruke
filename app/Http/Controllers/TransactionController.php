@@ -166,8 +166,10 @@ class TransactionController extends Controller
         //
         public function showMonthlyPDFView()
         {
+
                 // Get distinct months that have transactions
-                $months = Transaction::selectRaw("DATE_FORMAT(date, '%Y-%m') as month")
+                $months = Transaction::where('user_id', Auth::id())
+                        ->selectRaw("DATE_FORMAT(date, '%Y-%m') as month")
                         ->groupBy('month')
                         ->orderBy('month', 'desc')
                         ->get();
