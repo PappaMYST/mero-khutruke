@@ -9,7 +9,7 @@
                 Welcome to <span class="font-bold">Mero Khutruke</span>, a personal finance management app designed to
                 help you take control of your
                 finances effortlessly. Developed as part of our final year bachelor's degree project, our goal is to
-                provide users with an intuitive and efficient way to track expenses, manage budgets, and achieve
+                provide users with an intuitive and efficient way to track expenses, manage budgets, and achieve the
                 financial goals.
             </p>
             <p>
