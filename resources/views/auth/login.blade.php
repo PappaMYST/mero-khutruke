@@ -5,22 +5,32 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <div class="flex items-center justify-between mb-4 mr-2">
-            <h2 class="text-3xl font-bold">Log in</h2>
+            <h2 class="text-3xl font-bold text-gray-200">Log in</h2>
             <a href="/">
-                <i class="fa fa-x"></i>
+                <i class="fa fa-x text-gray-200"></i>
             </a>
         </div>
         <!-- Email Address -->
         <div>
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                autofocus autocomplete="username" placeholder="E-mail" />
+            <x-text-input id="email"
+                class="border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 shadow-xs-light"
+                type="email" name="email" :value="old('email')" required autofocus autocomplete="username"
+                placeholder="E-mail" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                autocomplete="current-password" placeholder="Password" />
+        <div x-data="{ show: false }" class="mt-4 relative">
+            <input x-bind:type="show ? 'text' : 'password'"
+                class="border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 shadow-xs-light"
+                id="password" name="password" required autocomplete="current-password" placeholder="Password" />
+            <div x-on:click="show = !show"
+                class="absolute inset-y-0 right-4
+                    flex items-center
+                    cursor-pointer text-gray-200 text-lg">
+                <i class="fa" x-bind:class="show ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </div>
+
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -30,11 +40,11 @@
             <label for="remember_me" class="inline-flex items-center">
                 <input id="remember_me" type="checkbox"
                     class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                <span class="ms-2 text-sm text-gray-200">{{ __('Remember me') }}</span>
             </label>
 
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                <a class="underline text-sm text-gray-200 hover:text-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
@@ -47,7 +57,7 @@
 
         <!-- Register Link -->
         <div class="text-center mt-5">
-            <a class="text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            <a class="text-sm text-gray-200 hover:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 href="{{ route('register') }}">
                 {{ __("Don't have an account? Register") }}
             </a>
