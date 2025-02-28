@@ -21,8 +21,8 @@ This repository contains the all the resources and the actual project for the pa
 
 ## Gallery
 
-    <img src="_college_reports/Appendix/img1.png" alt="img1" height="350px" width="350px">
-    <img src="_college_reports/Appendix/img2.png" alt="img2" height="350px" width="350px">
+<img src="_college_reports/Appendix/img1.png" alt="img1" height="350px" width="350px">
+<img src="_college_reports/Appendix/img2.png" alt="img2" height="350px" width="350px">
     <img src="_college_reports/Appendix/img3.png" alt="img3" height="350px" width="350px">
     <img src="_college_reports/Appendix/img4.png" alt="img4" height="350px" width="350px">
     <img src="_college_reports/Appendix/img5.png" alt="img5" height="350px" width="350px">
